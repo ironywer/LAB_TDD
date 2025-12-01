@@ -41,3 +41,17 @@ def test_list_users_returns_all_users():
     users = service.list_users()
 
     assert users == [u1, u2]
+
+
+# Итерация 5: обновление имени и email
+def test_update_user_changes_name_and_email():
+    service = UserService()
+    user = service.create_user("A", "a@example.com")
+
+    updated = service.update_user(user.id, name="A2", email="a2@example.com")
+
+    assert updated.id == user.id
+    assert updated.name == "A2"
+    assert updated.email == "a2@example.com"
+
+    assert service.get_user(user.id) == updated
