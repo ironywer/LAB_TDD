@@ -20,7 +20,7 @@ class UserService:
 
     def create_user(self, name, email):
         name = ''.join(name.split())
-        email = ''.join(email.split())
+        email = ''.join(email.split()).lower()
         if name == '' or '@' not in email:
             raise InvalidUserData
         unique_email = self._unique_email(email)
