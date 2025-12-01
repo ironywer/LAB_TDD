@@ -87,8 +87,18 @@ def test_delete_user_removes_it():
         service.get_user(user.id)
 
 
-# Итерация 9: delete должен быть идемпотентным
-def test_delete_user_is_idempotent():
+# Итерация 9: Проверка, что пользователь пропадает из списка
+def test_deleted_user_is_not_in_list_anymore():
+    service = UserService()
+    user = service.create_user("A", "a@example.com")
+
+    service.delete_user(user.id)
+
+    assert user not in service.list_users()
+
+# Итерация 10: валидация - пустое имя запрещено
+def test_cannot_create_user_with_empty_name():
     service = UserService()
 
-    service.delete_user(123)
+    with pytest.raises(InvalidUserData):
+        service.create_user(name="", email="a@example.com")
