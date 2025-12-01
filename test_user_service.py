@@ -1,6 +1,7 @@
 import pytest
 
-from user_service import UserService
+from user_service import UserService, UserNotFound
+
 
 # Итерация 1: создание пользователя
 def test_create_user_returns_user_with_id():
@@ -29,3 +30,14 @@ def test_get_user_raises_for_unknown_id():
 
     with pytest.raises(UserNotFound):
         service.get_user(999)
+
+
+# Итерация 4: список всех пользователей
+def test_list_users_returns_all_users():
+    service = UserService()
+    u1 = service.create_user("A", "a@example.com")
+    u2 = service.create_user("B", "b@example.com")
+
+    users = service.list_users()
+
+    assert users == [u1, u2]

@@ -1,3 +1,6 @@
+class UserNotFound(Exception):
+    """Пользователь с таким id не найден."""
+
 class UserService:
     def __init__(self):
         self._last_user = None
@@ -12,4 +15,6 @@ class UserService:
         return user
 
     def get_user(self, user_id):
+        if self._last_user is None:
+            raise UserNotFound(f"User with id={user_id} not found")
         return self._last_user
