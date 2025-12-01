@@ -1,3 +1,5 @@
+import pytest
+
 from user_service import UserService
 
 # Итерация 1: создание пользователя
@@ -19,3 +21,11 @@ def test_created_users_are_stored_and_can_be_read_by_id():
     fetched = service.get_user(created.id)
 
     assert fetched == created
+
+
+# Итерация 3: запрос несуществующего пользователя -> исключение
+def test_get_user_raises_for_unknown_id():
+    service = UserService()
+
+    with pytest.raises(UserNotFound):
+        service.get_user(999)
