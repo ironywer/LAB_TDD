@@ -12,16 +12,20 @@ class UserService:
     def __init__(self):
         self.users = []
 
-    def create_user(self, name, email):
-        if name == '' or '@' not in email:
-            raise InvalidUserData
+    def _unique_email(self, email):
         for user in self.users:
             if user.email == email:
                 raise EmailAlreadyExists
+        return email
+
+    def create_user(self, name, email):
+        if name == '' or '@' not in email:
+            raise InvalidUserData
+        unique_email = self._unique_email(email)
         user = type("User", (), {})()
         user.id = 1
         user.name = name
-        user.email = email
+        user.email = unique_email
 
         self.users.append(user)
         return user
@@ -35,12 +39,15 @@ class UserService:
     def list_users(self):
         return self.users
 
-    def update_user(self, id, name, email=None):
+    def update_user(self, id, name=None, email=None):
         for user in self.users:
             if user.id == id:
                 user.name = name
                 if email:
-                    user.email = email
+                    unique_email = self._unique_email(email)
+                    user.email = unique_email
+                if name:
+                    user.name = name
                 return user
         raise UserNotFound(f"User with id={id} not found")
 

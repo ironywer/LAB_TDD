@@ -117,3 +117,12 @@ def test_cannot_create_two_users_with_same_email():
 
     with pytest.raises(EmailAlreadyExists):
         service.create_user("B", "same@example.com")
+
+# Итерация 13: уникальность email при обновлении
+def test_update_user_cannot_change_email_to_existing_one():
+    service = UserService()
+    u1 = service.create_user("A", "a@example.com")
+    u2 = service.create_user("B", "b@example.com")
+
+    with pytest.raises(EmailAlreadyExists):
+        service.update_user(u2.id, email="a@example.com")
