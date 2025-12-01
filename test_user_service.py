@@ -55,3 +55,14 @@ def test_update_user_changes_name_and_email():
     assert updated.email == "a2@example.com"
 
     assert service.get_user(user.id) == updated
+
+
+# Итерация 6: обновление только имени
+def test_update_user_can_change_only_name():
+    service = UserService()
+    user = service.create_user("A", "a@example.com")
+
+    updated = service.update_user(user.id, name="A2")
+
+    assert updated.name == "A2"
+    assert updated.email == "a@example.com"
