@@ -24,14 +24,11 @@ class UserService:
     def list_users(self):
         return self.users
 
-    def update_user(self, id, name, email):
+    def update_user(self, id, name, email=None):
         for user in self.users:
             if user.id == id:
-                if name is not None:
-                    user.name = name
-                if email is not None:
+                user.name = name
+                if email:
                     user.email = email
-
-                self._last_user = user
                 return user
-        return None
+        raise UserNotFound(f"User with id={id} not found")

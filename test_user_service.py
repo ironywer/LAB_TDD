@@ -66,3 +66,22 @@ def test_update_user_can_change_only_name():
 
     assert updated.name == "A2"
     assert updated.email == "a@example.com"
+
+
+# Итерация 7: обновление несуществующего пользователя
+def test_update_user_raises_for_unknown_id():
+    service = UserService()
+
+    with pytest.raises(UserNotFound):
+        service.update_user(1, name="X")
+
+
+# Итерация 8: удаление пользователя
+def test_delete_user_removes_it():
+    service = UserService()
+    user = service.create_user("A", "a@example.com")
+
+    service.delete_user(user.id)
+
+    with pytest.raises(UserNotFound):
+        service.get_user(user.id)
