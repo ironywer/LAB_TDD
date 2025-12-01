@@ -19,6 +19,8 @@ class UserService:
         return email
 
     def create_user(self, name, email):
+        name = ''.join(name.split())
+        email = ''.join(email.split())
         if name == '' or '@' not in email:
             raise InvalidUserData
         unique_email = self._unique_email(email)

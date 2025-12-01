@@ -126,3 +126,20 @@ def test_update_user_cannot_change_email_to_existing_one():
 
     with pytest.raises(EmailAlreadyExists):
         service.update_user(u2.id, email="a@example.com")
+
+# Итерация 14: нормализация пробелов
+def test_create_user_strips_whitespace():
+    service = UserService()
+
+    user = service.create_user("  A  ", "  a@example.com  ")
+
+    assert user.name == "A"
+    assert user.email == "a@example.com"
+
+# Итерация 15: email приводится к нижнему регистру
+def test_email_is_stored_in_lowercase():
+    service = UserService()
+
+    user = service.create_user("A", "User@Example.COM")
+
+    assert user.email == "user@example.com"
