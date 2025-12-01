@@ -1,6 +1,6 @@
 import pytest
 
-from user_service import UserService, UserNotFound, InvalidUserData
+from user_service import UserService, UserNotFound, InvalidUserData, EmailAlreadyExists
 
 
 # Итерация 1: создание пользователя
@@ -109,3 +109,11 @@ def test_cannot_create_user_with_invalid_email():
 
     with pytest.raises(InvalidUserData):
         service.create_user(name="A", email="invalid-email")
+
+# Итерация 12: уникальность email при создании
+def test_cannot_create_two_users_with_same_email():
+    service = UserService()
+    service.create_user("A", "same@example.com")
+
+    with pytest.raises(EmailAlreadyExists):
+        service.create_user("B", "same@example.com")

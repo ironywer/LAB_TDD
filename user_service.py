@@ -4,6 +4,10 @@ class UserNotFound(Exception):
 class InvalidUserData(Exception):
     """Переданы некорректные данные пользователя."""
 
+class EmailAlreadyExists(Exception):
+    """Пользователь с таким email уже существует."""
+
+
 class UserService:
     def __init__(self):
         self.users = []
@@ -11,6 +15,9 @@ class UserService:
     def create_user(self, name, email):
         if name == '' or '@' not in email:
             raise InvalidUserData
+        for user in self.users:
+            if user.email == email:
+                raise EmailAlreadyExists
         user = type("User", (), {})()
         user.id = 1
         user.name = name
