@@ -1,11 +1,16 @@
 class UserNotFound(Exception):
     """Пользователь с таким id не найден."""
 
+class InvalidUserData(Exception):
+    """Переданы некорректные данные пользователя."""
+
 class UserService:
     def __init__(self):
         self.users = []
 
     def create_user(self, name, email):
+        if name == '' or '@' not in email:
+            raise InvalidUserData
         user = type("User", (), {})()
         user.id = 1
         user.name = name

@@ -1,6 +1,6 @@
 import pytest
 
-from user_service import UserService, UserNotFound
+from user_service import UserService, UserNotFound, InvalidUserData
 
 
 # Итерация 1: создание пользователя
@@ -102,3 +102,10 @@ def test_cannot_create_user_with_empty_name():
 
     with pytest.raises(InvalidUserData):
         service.create_user(name="", email="a@example.com")
+
+# Итерация 11: валидация - некорректный email
+def test_cannot_create_user_with_invalid_email():
+    service = UserService()
+
+    with pytest.raises(InvalidUserData):
+        service.create_user(name="A", email="invalid-email")
