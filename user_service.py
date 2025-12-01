@@ -32,3 +32,6 @@ class UserService:
                     user.email = email
                 return user
         raise UserNotFound(f"User with id={id} not found")
+
+    def delete_user(self, id):
+        self._last_user = None

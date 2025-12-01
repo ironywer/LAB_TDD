@@ -85,3 +85,10 @@ def test_delete_user_removes_it():
 
     with pytest.raises(UserNotFound):
         service.get_user(user.id)
+
+
+# Итерация 9: delete должен быть идемпотентным
+def test_delete_user_is_idempotent():
+    service = UserService()
+
+    service.delete_user(123)
